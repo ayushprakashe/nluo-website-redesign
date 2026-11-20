@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+enum Role { SUPER_ADMIN WEBSITE_ADMIN EDITOR DEPARTMENT_CONTRIBUTOR NOTICE_MANAGER VIEWER }
+enum PublishStatus { DRAFT IN_REVIEW APPROVED PUBLISHED ARCHIVED }
+enum ContentType { PAGE NOTICE EVENT TENDER DOCUMENT NEWS ACADEMIC }
+model User {
+  id String @id @default(cuid())
+  name String
+  email String @unique
+  passwordHash String
+  role Role @default(VIEWER)
+  department String?
+  active Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  revisions Revision[]
+  auditEvents AuditLog[]
+}
+model Content {
+  id String @id @default(cuid())
+  title String
+  slug String @unique
+  type ContentType
+  status PublishStatus @default(DRAFT)
+  summary String?
+  body Json?
+  department String?
+  publishedAt DateTime?
+  expiresAt DateTime?
+  createdById String
+  createdBy User @relation(fields:[createdById], references:[id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  revisions Revision[]
+  documents Document[]
+  @@index([type,status,publishedAt])
+}
+model Document {
+  id String @id @default(cuid())
+  title String
+  fileUrl String
+  mimeType String?
+  fileSize Int?
+  category String?
+  contentId String?
+  content Content? @relation(fields:[contentId],references:[id])
+  uploadedAt DateTime @default(now())
+}
+model Revision {
+  id String @id @default(cuid())
+  contentId String
+  content Content @relation(fields:[contentId],references:[id])
+  editorId String
+  editor User @relation(fields:[editorId],references:[id])
+  snapshot Json
+  note String?
+  createdAt DateTime @default(now())
+}
+model AuditLog {
+  id String @id @default(cuid())
+  actorId String
+  actor User @relation(fields:[actorId],references:[id])
+  action String
+  entityType String
+  entityId String
+  metadata Json?
+  createdAt DateTime @default(now())
+  @@index([actorId,createdAt])
+}

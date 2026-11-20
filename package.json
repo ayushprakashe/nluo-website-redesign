@@ -1,0 +1,31 @@
+{
+  "name": "nluo-website-redesign",
+  "version": "0.3.0",
+  "private": true,
+  "description": "A modern, student-centred website redesign concept for National Law University Odisha.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "db:validate": "prisma validate"
+  },
+  "dependencies": {
+    "framer-motion": "^12.23.12",
+    "lucide-react": "^0.468.0",
+    "next": "^15.4.6",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.30",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.7",
+    "eslint": "^9.34.0",
+    "eslint-config-next": "^15.4.6",
+    "prisma": "^6.14.0",
+    "typescript": "^5.9.2",
+    "@eslint/eslintrc": "^3.3.1"
+  }
+}
