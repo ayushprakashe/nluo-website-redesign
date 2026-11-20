@@ -1,3 +1,20 @@
+
+export function generateStaticParams() {
+  return [
+    { section: "about" },
+    { section: "academics" },
+    { section: "admissions" },
+    { section: "research" },
+    { section: "people" },
+    { section: "students" },
+    { section: "campus" },
+    { section: "accreditation" },
+    { section: "notices" },
+    { section: "tenders" },
+    { section: "news" },
+    { section: "contact" },
+  ];
+}
 import Link from "next/link";
 import {notFound} from "next/navigation";
 import {nav,quickLinks,programmes} from "@/lib/site";
